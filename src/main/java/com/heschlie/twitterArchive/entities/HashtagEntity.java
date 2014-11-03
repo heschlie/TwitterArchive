@@ -1,4 +1,4 @@
-package com.hechlie.twitterArchive.entities;
+package com.heschlie.twitterArchive.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,6 +14,8 @@ public class HashtagEntity {
 
     private String hashtag;
     private List<TweetEntity> tweetsUsed;
+
+    public HashtagEntity() {}
 
     @Id
     public String getHashtag() {

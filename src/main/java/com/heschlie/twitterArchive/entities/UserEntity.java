@@ -1,4 +1,4 @@
-package com.hechlie.twitterArchive.entities;
+package com.heschlie.twitterArchive.entities;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.*;

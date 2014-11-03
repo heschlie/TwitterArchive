@@ -1,4 +1,4 @@
-package com.hechlie.twitterArchive.entities;
+package com.heschlie.twitterArchive.entities;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,6 +18,8 @@ public class TweetEntity {
     private Boolean reTweeted;
     private List<TweetEntity> reTweets;
     private List<HashtagEntity> hashtags;
+
+    public TweetEntity() {}
 
     @Id
     public String getTweetId() {
