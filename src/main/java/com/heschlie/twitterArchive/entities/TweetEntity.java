@@ -1,6 +1,7 @@
 package com.heschlie.twitterArchive.entities;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,23 +11,25 @@ import java.util.List;
 @Entity
 public class TweetEntity {
 
-    private String tweetId;
+    private Long tweetId;
     private UserEntity author;
     private String tweetText;
     private Boolean reTweet;
-    private String reTweetId;
+    private Long reTweetId;
     private Boolean reTweeted;
-    private List<TweetEntity> reTweets;
+    private Integer retweetCount;
     private List<HashtagEntity> hashtags;
+    private List<UserEntity> mentions;
+    private Date creationDate;
 
     public TweetEntity() {}
 
     @Id
-    public String getTweetId() {
+    public Long getTweetId() {
         return tweetId;
     }
 
-    public void setTweetId(String tweetId) {
+    public void setTweetId(Long tweetId) {
         this.tweetId = tweetId;
     }
 
@@ -55,11 +58,11 @@ public class TweetEntity {
         this.reTweet = reTweet;
     }
 
-    public String getReTweetId() {
+    public Long getReTweetId() {
         return reTweetId;
     }
 
-    public void setReTweetId(String reTweetId) {
+    public void setReTweetId(Long reTweetId) {
         this.reTweetId = reTweetId;
     }
 
@@ -71,13 +74,12 @@ public class TweetEntity {
         this.reTweeted = reTweeted;
     }
 
-    @OneToMany
-    public List<TweetEntity> getReTweets() {
-        return reTweets;
+    public Integer getRetweetCount() {
+        return retweetCount;
     }
 
-    public void setReTweets(List<TweetEntity> reTweets) {
-        this.reTweets = reTweets;
+    public void setRetweetCount(Integer retweetCount) {
+        this.retweetCount = retweetCount;
     }
 
     @ManyToMany
@@ -98,5 +100,11 @@ public class TweetEntity {
         this.mentions = mentions;
     }
 
-    private List<UserEntity> mentions;
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
 }

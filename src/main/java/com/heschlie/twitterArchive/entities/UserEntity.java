@@ -1,8 +1,8 @@
 package com.heschlie.twitterArchive.entities;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.*;
 import java.beans.Transient;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,20 +14,19 @@ import java.util.Map;
 @Entity
 public class UserEntity {
 
+    private Long userID;
     private String username;
-    private List<TweetEntity> tweets;
-    private List<HashtagEntity> hashtags;
+    private List<TweetEntity> tweets = new ArrayList<TweetEntity>();
+    private List<HashtagEntity> hashtags = new ArrayList<HashtagEntity>();
     private Integer numberOfTweets;
     private Map<String, Integer> hashtagCount = new HashMap<String, Integer>();
 
     public UserEntity() {}
 
-    @PostConstruct
     private void calculateTweets() {
         numberOfTweets = tweets.size();
     }
 
-    @PostConstruct
     private void calculateHashtagCount() {
         for (HashtagEntity tag : hashtags) {
             int count = hashtagCount.containsKey(tag.getHashtag()) ? hashtagCount.get(tag.getHashtag()) : 0;
@@ -36,6 +35,14 @@ public class UserEntity {
     }
 
     @Id
+    public Long getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Long userID) {
+        this.userID = userID;
+    }
+
     public String getUsername() {
         return username;
     }
