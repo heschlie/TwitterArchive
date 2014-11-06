@@ -1,8 +1,10 @@
 package com.heschlie.twitterArchive;
 
+import com.heschlie.twitterArchive.beans.HashtagEJB;
 import com.heschlie.twitterArchive.beans.UserEJB;
 import com.heschlie.twitterArchive.entities.TweetEntity;
 import com.heschlie.twitterArchive.entities.UserEntity;
+import twitter4j.HashtagEntity;
 import twitter4j.Status;
 
 import javax.ejb.EJB;
@@ -16,25 +18,33 @@ public class TweetWorker implements Runnable {
     @EJB
     private UserEJB userEJB;
 
+    @EJB
+    private HashtagEJB hashtagEJB;
+
     private LinkedBlockingQueue<Status> workQueue;
 
     @Override
+    @SuppressWarnings("InfiniteLoopStatement")
     public void run() {
+        while (true) {
+            try {
+                Status status = workQueue.take();
 
-    }
-
-    private void processStatus() {
-        try {
-            Status status = workQueue.take();
-
-            UserEntity user = getUserInfo(status);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+                processStatus(status);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
+    private void processStatus(Status status) {
+        UserEntity user = getUserInfo(status);
+
+        userEJB.updateUser(user);
+    }
+
     private UserEntity getUserInfo(Status status) {
-        UserEntity user = userEJB.findUser(status.getUser().getScreenName());
+        UserEntity user = userEJB.findUser(status.getUser().getId());
 
         if (user == null) {
             user = new UserEntity();
@@ -68,7 +78,18 @@ public class TweetWorker implements Runnable {
     }
 
     private void getHashtagInfo(UserEntity user, TweetEntity tweet, Status status) {
-
+        HashtagEntity[] tags = status.getHashtagEntities();
+        for (HashtagEntity tag : tags) {
+            com.heschlie.twitterArchive.entities.HashtagEntity myTag = hashtagEJB.findHashtag(tag.getText());
+            if (myTag == null) {
+                myTag = new com.heschlie.twitterArchive.entities.HashtagEntity();
+                myTag.setHashtag(tag.getText());
+            }
+            myTag.getTweetsUsed().add(tweet);
+            myTag.getUsedBy().add(user);
+            user.getHashtags().add(myTag);
+            tweet.getHashtags().add(myTag);
+        }
     }
 
     public LinkedBlockingQueue<Status> getWorkQueue() {

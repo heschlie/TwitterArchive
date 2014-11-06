@@ -1,12 +1,10 @@
 package com.heschlie.twitterArchive.beans;
 
 import com.heschlie.twitterArchive.entities.UserEntity;
-import twitter4j.Status;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Created by heschlie on 11/3/2014. Copyright under Iridium Flare Games LLC.
@@ -23,7 +21,16 @@ public class UserEJB {
         return user;
     }
 
-    public UserEntity findUser(String username) {
-        return em.find(UserEntity.class, username);
+    public UserEntity findUser(Long userID) {
+        return em.find(UserEntity.class, userID);
+    }
+
+    public UserEntity updateUser(UserEntity user) {
+        if (findUser(user.getUserID()) != null) {
+            em.merge(user);
+        } else {
+            em.persist(user);
+        }
+        return user;
     }
 }

@@ -51,7 +51,7 @@ public class UserEntity {
         this.username = username;
     }
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userEntity")
     public List<TweetEntity> getTweets() {
         return tweets;
     }
@@ -69,7 +69,7 @@ public class UserEntity {
         this.numberOfTweets = numberOfTweets;
     }
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     public List<HashtagEntity> getHashtags() {
         return hashtags;
     }

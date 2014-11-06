@@ -21,12 +21,21 @@ public class Controller {
         workQueue = new LinkedBlockingQueue<Status>();
 
         startCrawler();
+        startWorkers();
+    }
+
+    private void startWorkers() {
+        for (int i = 0; i < 20; i++) {
+            TweetWorker worker = new TweetWorker();
+            worker.setWorkQueue(workQueue);
+            new Thread(worker).start();
+        }
     }
 
     private void startCrawler() {
         Crawler crawler = new Crawler();
         crawler.setWorkQueue(workQueue);
 
-        new Thread(crawler);
+        new Thread(crawler).start();
     }
 }
