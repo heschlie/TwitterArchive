@@ -8,6 +8,7 @@ import com.heschlie.twitterArchive.Controller;
 public class Main {
 
     public static void main(String[] args) {
+        System.out.println("test");
 
         Controller controller = new Controller();
         controller.setup();

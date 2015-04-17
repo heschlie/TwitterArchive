@@ -45,6 +45,7 @@ public class Crawler implements Runnable, StatusListener {
     public void onStatus(Status status) {
         try {
             workQueue.put(status);
+            System.out.println("new status!");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -62,6 +63,11 @@ public class Crawler implements Runnable, StatusListener {
 
     @Override
     public void onScrubGeo(long l, long l2) {
+
+    }
+
+    @Override
+    public void onStallWarning(StallWarning warning) {
 
     }
 

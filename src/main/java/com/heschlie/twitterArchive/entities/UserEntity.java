@@ -51,7 +51,7 @@ public class UserEntity {
         this.username = username;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userEntity")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "author")
     public List<TweetEntity> getTweets() {
         return tweets;
     }

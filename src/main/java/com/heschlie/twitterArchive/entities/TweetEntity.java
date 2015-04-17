@@ -100,6 +100,7 @@ public class TweetEntity {
         this.mentions = mentions;
     }
 
+    @Temporal(TemporalType.DATE)
     public Date getCreationDate() {
         return creationDate;
     }
